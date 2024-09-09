@@ -13,3 +13,4 @@ public interface NurseRepository extends JpaRepository<AdminEntity, Long> {
 
     boolean existsByemail(String email);
 }
+/*bhjhvhjhvnbbnbn*/
