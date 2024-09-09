@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Interface</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .chat-container {
+            width: 400px;
+            height: 500px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .chat-body {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .message {
+            margin-bottom: 15px;
+        }
+
+        .message.user {
+            text-align: right;
+        }
+
+        .message.bot {
+            text-align: left;
+        }
+
+        .message p {
+            display: inline-block;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 0;
+        }
+
+        .message.user p {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .message.bot p {
+            background-color: #f1f1f1;
+            color: black;
+        }
+
+        .chat-input {
+            display: flex;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .chat-input input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .chat-input button {
+            margin-left: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .chat-input button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="chat-container">
+    <div class="chat-header">
+        <h2>Hospital Chatbot</h2>
+    </div>
+    <div class="chat-body" id="chat-body">
+        <!-- Messages will be appended here -->
+    </div>
+    <div class="chat-input">
+        <input type="text" id="chat-input" placeholder="Type your message..." />
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<script>
+    const chatBody = document.getElementById('chat-body');
+    const chatInput = document.getElementById('chat-input');
+
+    function appendMessage(sender, text) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', sender);
+
+        const messageText = document.createElement('p');
+        messageText.textContent = text;
+
+        messageDiv.appendChild(messageText);
+        chatBody.appendChild(messageDiv);
+
+        // Scroll to the bottom of the chat
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    function sendMessage() {
+        const userInput = chatInput.value.trim();
+        if (!userInput) return;
+
+        // Append user message
+        appendMessage('user', userInput);
+
+        // Clear the input
+        chatInput.value = '';
+
+        // Simulate a bot response (this is where you would call the backend API)
+        setTimeout(() => {
+            appendMessage('bot', 'Processing your request...');
+
+            // Mock API call to backend (replace this with actual backend request)
+            setTimeout(() => {
+                const botResponse = generateBotResponse(userInput);
+                appendMessage('bot', botResponse);
+            }, 1000);
+        }, 500);
+    }
+
+    // A function to generate a basic response (replace with backend call)
+    function generateBotResponse(userInput) {
+        if (userInput.toLowerCase().includes('appointment')) {
+            return 'You can book an appointment by providing your details!';
+        } else if (userInput.toLowerCase().includes('doctor')) {
+            return 'We have many experienced doctors. How can I assist you with a doctor inquiry?';
+        } else if (userInput.toLowerCase().includes('help')) {
+            return 'I can assist you with booking appointments, doctor inquiries, or general information!';
+        } else {
+            return "I'm not sure how to answer that. Please ask about appointments, doctors, or help!";
+        }
+    }
+</script>
+</body>
+</html>

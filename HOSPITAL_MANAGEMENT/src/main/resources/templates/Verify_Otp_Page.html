@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="styles.css"> <!-- Make sure to link your CSS file here -->
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        /* Form Container */
+        .forgot-password-form {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+        }
+
+        /* Close Button */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff4d4d;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 20px;
+            line-height: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: #cc0000;
+        }
+
+        /* Form Elements */
+        .forgot-password-form h1 {
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .forgot-password-form p {
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .forgot-password-form input {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .forgot-password-form input:focus {
+            border-color: #512da8;
+        }
+
+        .forgot-password-form button {
+            background-color: #512da8;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+
+        .forgot-password-form button:hover {
+            background-color: #3e1f8a;
+        }
+
+        /* Alert Box */
+        .alert-box {
+            position: fixed;
+            top: 30px; /* Adjusted to be at the top of the viewport */
+            left: 50%;
+            transform: translateX(-50%);
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            padding: 18px 18px;
+            width: 250px;
+            text-align: center;
+            display: none;
+            z-index: 2000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .alert-box.success {
+            background: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+
+        .alert-box.error {
+            background: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="overlay">
+    <div class="forgot-password-form">
+        <button class="close-btn" onclick="closeForm()">×</button>
+        <h1>Verify OTP</h1>
+        <p>Please enter your email to receive an OTP and verify it.</p>
+        <form id="forgot-password-form" th:action="@{/OtpVerification}" method="post">
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="text" name="otp" placeholder="Enter OTP" required>
+            <button type="submit">Verify</button>
+        </form>
+        <div id="success-alert-box" class="alert-box success" th:if="${sucess_message}">
+            <span th:text="${sucess_message}"></span>
+        </div>
+        <div id="failure-alert-box" class="alert-box error" th:if="${failure_message}">
+            <span th:text="${failure_message}"></span>
+        </div>
+    </div>
+</div>
+
+<script>
+    function closeForm() {
+        window.location.href = '/login';
+    }
+
+    function showAlertAndRedirect() {
+        var successAlertBox = document.getElementById('success-alert-box');
+        var failureAlertBox = document.getElementById('failure-alert-box');
+
+        if (successAlertBox && successAlertBox.innerText) {
+            successAlertBox.style.display = 'block';
+            setTimeout(function() {
+                successAlertBox.style.display = 'none';
+                var email = encodeURIComponent(document.querySelector('input[name="email"]').value);
+                window.location.href = '/New_Password_Page?email=' + email;
+            }, 3000);
+        }
+
+        if (failureAlertBox && failureAlertBox.innerText) {
+            failureAlertBox.style.display = 'block';
+            setTimeout(function() {
+                failureAlertBox.style.display = 'none';
+                window.location.href = '/ForgetPassword_otp_sender';
+            }, 4000);
+        }
+    }
+
+    // Check for message attributes and show alerts if present
+    document.addEventListener('DOMContentLoaded', function() {
+        showAlertAndRedirect();
+    });
+</script>
+</body>
+</html>

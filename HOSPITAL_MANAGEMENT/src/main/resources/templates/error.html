@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error Page</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        .error-container {
+            text-align: center;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .emoji {
+            font-size: 100px;
+            display: inline-block;
+            position: relative;
+        }
+
+        .eyes {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .eye {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #fff;
+            border: 3px solid #333;
+            margin: 0 5px;
+            position: relative;
+            animation: blink 1.5s infinite;
+        }
+
+        .eye.left {
+            animation: blink-left 1.5s infinite;
+        }
+
+        .eye.right {
+            animation: blink-right 1.5s infinite;
+        }
+
+        @keyframes blink-left {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes blink-right {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes blink {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+
+        p {
+            font-size: 18px;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="error-container">
+    <div class="emoji">
+        😢
+        <div class="eyes">
+            <div class="eye left"></div>
+            <div class="eye right"></div>
+        </div>
+    </div>
+    <h1>Something Went Wrong!</h1>
+    <p>We couldn't find the page you were looking for. Please try again later.</p>
+    <a href="index" class="back-button">Go Back to Home</a>
+</div>
+<script>
+
+</script>
+</body>
+</html>

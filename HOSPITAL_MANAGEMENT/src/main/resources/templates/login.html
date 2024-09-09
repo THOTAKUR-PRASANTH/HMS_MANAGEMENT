@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/main.css}">
+    <title>Modern Login Page | AsmrProg</title>
+</head>
+
+<body>
+
+<div id="error-message" class="error-message"></div> <!-- Alert box -->
+<div class="container" id="container">
+    <!-- Sign Up Form -->
+    <div class="form-container sign-up">
+       <a th:href="@{/Register}">Regester</a><br>
+        <a th:href="@{/add}">registerdoctor</a>
+    </div>
+
+    <!-- Sign In Form -->
+    <div class="form-container sign-in">
+        <form th:action="@{/login}" method="post">
+            <h1>Sign In</h1>
+            <span>Use Your Email and Password</span>
+            <input type="text" name="username" placeholder="Email" required>
+
+
+            <select name="role" required>
+                <option value="" disabled selected>Select Role</option>
+                <option value="admin">Admin</option>
+                <option value="staff">Staff</option>
+                <option value="user">User</option>
+            </select>
+
+            <input type="password" name="password" placeholder="Password" required>
+            <div class="form-footer">
+                <button type="submit">Sign In</button>
+                <a href="#" th:href="@{/ForgetPassword_otp_sender}" class="forgot-password">Forget Your Password?</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Toggle Container -->
+    <div class="toggle-container">
+        <div class="toggle">
+            <div class="toggle-panel toggle-left">
+                <h1>Welcome Back!</h1>
+                <p>Enter your personal details to use all of the site features</p>
+                <button class="hidden" id="login">Sign In</button>
+            </div>
+            <div class="toggle-panel toggle-right">
+                <h1>Hello, Friend!</h1>
+                <p>Register with your personal details to use all of the site features</p>
+                <button class="hidden" id="register">Sign Up</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var error = /*[[${error}]]*/ '';
+    var logout = /*[[${logout}]]*/ '';
+    var alertBox = document.getElementById('error-message');
+
+    if (error) {
+        alertBox.innerHTML = `
+            <div class="alert alert-error">
+                <span class="alert-text">${error}</span>
+                <span class="alert-close">&times;</span>
+            </div>
+        `;
+        alertBox.style.display = 'block';
+        setTimeout(() => {
+            alertBox.style.opacity = 1;
+            alertBox.style.transform = 'translateY(0)';
+        }, 100);
+        setTimeout(() => {
+            alertBox.style.opacity = 0;
+            alertBox.style.transform = 'translateY(-100%)';
+        }, 5000);
+    }
+
+    if (logout === 'true') {
+        alertBox.innerHTML = `
+            <div class="alert alert-success">
+                <span class="alert-text">Successfully logged out!</span>
+                <span class="alert-close">&times;</span>
+            </div>
+        `;
+        alertBox.style.display = 'block';
+        setTimeout(() => {
+            alertBox.style.opacity = 1;
+            alertBox.style.transform = 'translateY(0)';
+        }, 100);
+        setTimeout(() => {
+            alertBox.style.opacity = 0;
+            alertBox.style.transform = 'translateY(-100%)';
+        }, 5000);
+    }
+
+    document.addEventListener('click', (event) => {
+        if (event.target.classList.contains('alert-close')) {
+            event.target.parentElement.parentElement.style.opacity = 0;
+            event.target.parentElement.parentElement.style.transform = 'translateY(-100%)';
+        }
+    });
+    /*]]>*/
+</script>
+
+<script>
+    const container = document.getElementById('container');
+    const registerBtn = document.getElementById('register');
+    const loginBtn = document.getElementById('login');
+
+    registerBtn.addEventListener('click', () => {
+        container.classList.add("active");
+    });
+
+    loginBtn.addEventListener('click', () => {
+        container.classList.remove("active");
+    });
+</script>
+</body>
+
+</html>
